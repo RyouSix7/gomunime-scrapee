@@ -9,18 +9,25 @@ jobs:
   scrape:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # <--- Tambahkan baris ini
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      # 1. checkout@v6 (sebelumnya v4)
+      - uses: actions/checkout@v6
+
+      # 2. setup-python@v6 (sebelumnya v5)
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.10'
+
       - run: pip install playwright requests
+
       - run: playwright install chromium
+
       - run: playwright install-deps
+
       - run: python scraper.py
-      - uses: stefanzweifel/git-auto-commit-action@v5
+
+      # 3. git-auto-commit-action@v7 (sebelumnya v5)
+      - uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "Auto update data [skip ci]"
           file_pattern: data.json
